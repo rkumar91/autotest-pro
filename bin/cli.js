@@ -176,11 +176,16 @@ async function main() {
       console.log(`📊 JSON report generated: ${jsonFile}`);
     }
 
+    console.log(`\n\x1b[36m─────────────────────────────────────────────────────────────\x1b[0m`);
+    console.log(`\x1b[1m💡 Want the Real-Time Web Dashboard & Pre-built CI/CD Pipelines?\x1b[0m`);
+    console.log(`👉 \x1b[33mhttps://priyex.lemonsqueezy.com/checkout/buy/d89c870f-f836-4e9e-b254-8bfa72afd575\x1b[0m`);
+    console.log(`\x1b[36m─────────────────────────────────────────────────────────────\x1b[0m\n`);
+
     if (summary.healthScore < options.minScore) {
-      console.log(`\n\x1b[31m\x1b[1mPIPELINE FAILED: Health score ${summary.healthScore} is below threshold ${options.minScore}\x1b[0m\n`);
+      console.log(`\x1b[31m\x1b[1mPIPELINE FAILED: Health score ${summary.healthScore} is below threshold ${options.minScore}\x1b[0m\n`);
       process.exit(1);
     } else {
-      console.log(`\n\x1b[32m\x1b[1mPIPELINE PASSED: Quality gate passed with score ${summary.healthScore}\x1b[0m\n`);
+      console.log(`\x1b[32m\x1b[1mPIPELINE PASSED: Quality gate passed with score ${summary.healthScore}\x1b[0m\n`);
       process.exit(0);
     }
   } catch (err) {

@@ -15,6 +15,12 @@
 
 Most automated testing setups require either complex framework scaffolding or expensive third-party cloud SaaS subscriptions ($50–$200/month) that transmit sensitive test data, session tokens, and internal application screenshots outside your firewall.
 
+### 💎 Get AutoTest Pro Enterprise
+Looking for the complete production-ready setup with pre-built CI/CD pipelines, visual dashboards, and priority updates?  
+👉 [**Instant Download AutoTest Pro Enterprise ($39 / ₹2,999)**](https://priyex.lemonsqueezy.com/checkout/buy/d89c870f-f836-4e9e-b254-8bfa72afd575)
+
+---
+
 **AutoTest Pro** gives you a turnkey, enterprise-grade test automation suite with a **real-time visual web dashboard**, a headless **CI/CD CLI gatekeeper**, and **zero cloud dependencies**:
 
 - 🔒 **100% Local Execution**: All browser instances, screenshots, and test artifacts run and stay strictly on your machine or private runner.
