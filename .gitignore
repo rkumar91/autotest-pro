@@ -1,0 +1,18 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Test Artifacts & Outputs
+reports/
+screenshots/
+*.log
+
+# Sensitive Session & History Data
+auth/*.json
+data/history.json
+
+# OS & Editor Files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

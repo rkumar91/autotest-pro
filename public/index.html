@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AutoTest Pro — E2E UI Testing Dashboard</title>
+  <meta name="description" content="Automated E2E UI Testing Tool with Real-Time Dashboard. 100% local, open source, zero data leakage.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Animated Background -->
+  <div class="bg-grid"></div>
+  <div class="bg-glow bg-glow-1"></div>
+  <div class="bg-glow bg-glow-2"></div>
+  <div class="bg-glow bg-glow-3"></div>
+
+  <!-- Header -->
+  <header id="app-header">
+    <div class="header-content">
+      <div class="logo">
+        <div class="logo-icon">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <rect x="2" y="2" width="28" height="28" rx="8" stroke="url(#logo-grad)" stroke-width="2.5"/>
+            <path d="M10 16L14 20L22 12" stroke="url(#logo-grad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <defs>
+              <linearGradient id="logo-grad" x1="2" y1="2" x2="30" y2="30">
+                <stop stop-color="#6366f1"/>
+                <stop offset="1" stop-color="#a855f7"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <div class="logo-text">
+          <h1>AutoTest Pro</h1>
+          <span class="logo-badge">v1.0 • 100% Local</span>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button id="btn-history" class="btn-ghost" title="Test History">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span>History</span>
+        </button>
+        <button id="btn-export-junit" class="btn-ghost" title="Export JUnit XML for CI/CD" disabled>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          <span>JUnit XML</span>
+        </button>
+        <button id="btn-export" class="btn-ghost" title="Export Results JSON" disabled>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          <span>Export JSON</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mode Selector Navigation -->
+    <nav class="app-mode-nav">
+      <button id="nav-mode-audit" class="mode-tab active" data-mode="audit">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <span>Site Health &amp; WCAG Compliance</span>
+      </button>
+      <button id="nav-mode-scenarios" class="mode-tab" data-mode="scenarios">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        <span>E2E User Journeys (Post-Login)</span>
+        <span class="badge-enterprise">Enterprise</span>
+      </button>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main id="app-main">
+    <!-- VIEW 1: Site Health & Compliance Audit -->
+    <div id="view-audit" class="view-panel active">
+      <!-- URL Input Section -->
+      <section id="url-section" class="glass-card url-card">
+      <div class="url-input-group">
+        <div class="url-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </div>
+        <input
+          type="url"
+          id="url-input"
+          placeholder="Enter application URL to test (e.g., https://example.com)"
+          autocomplete="url"
+          spellcheck="false"
+        />
+        <button id="btn-start" class="btn-primary">
+          <span class="btn-text">Start Testing</span>
+          <span class="btn-loader" hidden>
+            <span class="spinner"></span>
+            <span>Scanning...</span>
+          </span>
+        </button>
+      </div>
+      <div id="scan-progress" class="scan-progress" hidden>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progress-fill"></div>
+        </div>
+        <p class="progress-text" id="progress-text">Initializing...</p>
+      </div>
+    </section>
+
+    <!-- Authentication Settings Section -->
+    <section id="auth-section" class="glass-card auth-card open">
+      <div class="auth-header" id="auth-toggle">
+        <div class="auth-header-left">
+          <div class="auth-header-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+          <div class="auth-header-text">
+            <span class="auth-title">Application Login &amp; Authentication</span>
+            <span class="auth-subtitle">Configure credentials, Entra ID / OAuth2 tokens, or public mode</span>
+          </div>
+          <span class="auth-badge" id="auth-status-badge">Public (No Auth)</span>
+        </div>
+        <svg class="auth-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+
+      <div class="auth-body" id="auth-drawer">
+        <!-- Auth Mode Tabs -->
+        <div class="auth-tabs">
+          <button type="button" class="auth-tab" data-tab="none">
+            <span class="tab-icon">🌐</span>
+            <span>Public / No Auth</span>
+          </button>
+          <button type="button" class="auth-tab active" data-tab="form">
+            <span class="tab-icon">🔑</span>
+            <span>Username &amp; Password</span>
+          </button>
+          <button type="button" class="auth-tab" data-tab="token">
+            <span class="tab-icon">⚡</span>
+            <span>Entra ID / Token / Cookies</span>
+          </button>
+          <button type="button" class="auth-tab" data-tab="sso">
+            <span class="tab-icon">🖥️</span>
+            <span>Interactive SSO</span>
+          </button>
+          <button type="button" class="auth-tab" data-tab="sessions">
+            <span class="tab-icon">💾</span>
+            <span>Saved Profiles (<span id="saved-sessions-count">0</span>)</span>
+          </button>
+        </div>
+
+        <!-- Tab 1: Public / No Auth -->
+        <div class="auth-tab-content" id="tab-none" hidden>
+          <div class="auth-callout info">
+            <p><strong>Public Mode:</strong> AutoTest Pro will crawl and test all publicly accessible routes without login credentials.</p>
+          </div>
+        </div>
+
+        <!-- Tab 2: Username & Password (Default Active) -->
+        <div class="auth-tab-content active" id="tab-form">
+          <div class="auth-callout">
+            <p>Enter login credentials. AutoTest Pro will automatically detect the username/password fields, log in, capture the session, and audit internal pages.</p>
+          </div>
+          <div class="auth-form-grid">
+            <div class="form-group full-width">
+              <label for="auth-login-url">
+                <span>Login Page URL</span>
+                <a href="#" id="link-open-login" class="label-link" target="_blank" rel="noopener noreferrer">Open in Browser ↗</a>
+              </label>
+              <div class="input-with-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                <input type="url" id="auth-login-url" placeholder="https://example.com/login (optional if same as main URL)" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="auth-username">Username / Email</label>
+              <div class="input-with-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                <input type="text" id="auth-username" placeholder="admin@company.com" autocomplete="off" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="auth-password">Password</label>
+              <div class="input-with-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                <input type="password" id="auth-password" placeholder="Enter password" autocomplete="off" />
+                <button type="button" id="btn-toggle-pwd" class="btn-input-action" title="Show/Hide password">👁️</button>
+              </div>
+            </div>
+          </div>
+
+          <details class="advanced-selectors" style="margin-bottom: 16px;">
+            <summary style="font-size: 0.8rem; color: #818cf8; cursor: pointer; font-weight: 600; padding: 4px 0;">⚙️ Custom Selectors (Optional Override)</summary>
+            <div class="auth-form-grid" style="margin-top: 10px;">
+              <div class="form-group">
+                <label for="auth-user-selector">Username Input Selector</label>
+                <input type="text" id="auth-user-selector" placeholder="e.g. #i0116 or input[name='loginfmt']" />
+              </div>
+              <div class="form-group">
+                <label for="auth-pass-selector">Password Input Selector</label>
+                <input type="text" id="auth-pass-selector" placeholder="e.g. #i0118 or input[name='passwd']" />
+              </div>
+              <div class="form-group full-width">
+                <label for="auth-submit-selector">Next / Submit Button Selector</label>
+                <input type="text" id="auth-submit-selector" placeholder="e.g. #idSIButton9, button[type='submit'], or auto-detected" />
+              </div>
+              <div class="form-group full-width">
+                <label for="auth-trigger-selector">Modal / Popup Trigger Button (if login opens via a button click)</label>
+                <input type="text" id="auth-trigger-selector" placeholder="Auto-detected (e.g. button:has-text('Login / Register'))" />
+              </div>
+            </div>
+          </details>
+
+          <div class="auth-action-row">
+            <button type="button" id="btn-test-form-login" class="btn-action">
+              <span>Test Login &amp; Save Profile</span>
+            </button>
+            <span id="form-login-status" class="auth-status-text"></span>
+          </div>
+        </div>
+
+        <!-- Tab 3: Entra ID / Token / Cookies -->
+        <div class="auth-tab-content" id="tab-token" hidden>
+          <div class="auth-callout">
+            <p>For <strong>Microsoft Entra ID / OAuth2 / JWT apps</strong>: Paste an Authorization Bearer token, session cookie, or Playwright <code>storageState.json</code>.</p>
+          </div>
+          <div class="form-group full-width">
+            <label for="auth-token-input">Bearer Token, Session Cookie, or StorageState JSON</label>
+            <textarea id="auth-token-input" rows="3" placeholder="eyJhbGciOi... or Cookie: session_token=xyz or paste full JSON"></textarea>
+          </div>
+          <div class="auth-action-row">
+            <button type="button" id="btn-apply-token" class="btn-action">
+              <span>Apply Token &amp; Save Session</span>
+            </button>
+            <span id="token-status" class="auth-status-text"></span>
+          </div>
+        </div>
+
+        <!-- Tab 4: Interactive SSO -->
+        <div class="auth-tab-content" id="tab-sso" hidden>
+          <div class="auth-callout">
+            <p>For complex logins requiring <strong>Corporate SSO, Authenticator App OTP, or CAPTCHA</strong>:</p>
+          </div>
+          <div class="auth-action-row">
+            <button type="button" id="btn-launch-sso" class="btn-action">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              <span>Launch Desktop Login Browser</span>
+            </button>
+            <a href="#" id="btn-open-external" class="btn-secondary" target="_blank" rel="noopener noreferrer">
+              <span>Open Application Tab ↗</span>
+            </a>
+            <span id="sso-status" class="auth-status-text"></span>
+          </div>
+        </div>
+
+        <!-- Tab 5: Saved Sessions -->
+        <div class="auth-tab-content" id="tab-sessions" hidden>
+          <div id="saved-sessions-list" class="sessions-list">
+            <p class="empty-state">No saved profiles yet. Enter credentials or paste a token to save one.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Results Section (hidden until test completes) -->
+    <section id="results-section" hidden>
+      <!-- Summary Cards Row -->
+      <div class="summary-row">
+        <div class="summary-card glass-card" id="card-score">
+          <div class="score-ring-container">
+            <svg class="score-ring" viewBox="0 0 120 120">
+              <circle class="score-ring-bg" cx="60" cy="60" r="52"/>
+              <circle class="score-ring-fill" cx="60" cy="60" r="52" id="score-ring-fill"/>
+            </svg>
+            <div class="score-value">
+              <span id="score-number">0</span>
+              <span class="score-grade" id="score-grade">-</span>
+            </div>
+          </div>
+          <div class="score-label">Health Score</div>
+        </div>
+
+        <div class="summary-card glass-card stat-card">
+          <div class="stat-icon stat-total">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          </div>
+          <div class="stat-value" id="stat-total">0</div>
+          <div class="stat-label">Total Tests</div>
+        </div>
+
+        <div class="summary-card glass-card stat-card">
+          <div class="stat-icon stat-passed">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          </div>
+          <div class="stat-value" id="stat-passed">0</div>
+          <div class="stat-label">Passed</div>
+        </div>
+
+        <div class="summary-card glass-card stat-card">
+          <div class="stat-icon stat-failed">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+          </div>
+          <div class="stat-value" id="stat-failed">0</div>
+          <div class="stat-label">Failed</div>
+        </div>
+
+        <div class="summary-card glass-card stat-card">
+          <div class="stat-icon stat-warnings">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </div>
+          <div class="stat-value" id="stat-warnings">0</div>
+          <div class="stat-label">Warnings</div>
+        </div>
+      </div>
+
+      <!-- Test Info Bar -->
+      <div class="test-info glass-card" id="test-info">
+        <div class="test-info-item">
+          <span class="info-label">URL</span>
+          <a id="info-url" href="#" target="_blank" rel="noopener noreferrer">-</a>
+        </div>
+        <div class="test-info-item">
+          <span class="info-label">Pages Scanned</span>
+          <span id="info-pages">-</span>
+        </div>
+        <div class="test-info-item">
+          <span class="info-label">Duration</span>
+          <span id="info-duration">-</span>
+        </div>
+        <div class="test-info-item">
+          <span class="info-label">Timestamp</span>
+          <span id="info-timestamp">-</span>
+        </div>
+      </div>
+
+      <!-- Category Results -->
+      <div id="categories-container" class="categories-container"></div>
+
+      <!-- Responsive Screenshots -->
+      <section id="screenshots-section" class="glass-card" hidden>
+        <h2 class="section-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          Responsive Screenshots
+        </h2>
+        <div id="screenshots-grid" class="screenshots-grid"></div>
+      </section>
+    </div><!-- End #view-audit -->
+
+    <!-- VIEW 2: E2E User Journeys (Post-Login Transactional Scenarios) -->
+    <div id="view-scenarios" class="view-panel" hidden>
+      <!-- Scenario Selector & Runner Bar -->
+      <section class="glass-card scenario-header-card">
+        <div class="scenario-top-row">
+          <div class="scenario-select-wrapper">
+            <label for="select-scenario" class="scenario-label">Select E2E Journey:</label>
+            <select id="select-scenario" class="scenario-select">
+              <option value="">Loading scenarios...</option>
+            </select>
+            <button type="button" id="btn-new-scenario" class="btn-secondary btn-sm" title="Create New Journey">
+              <span>+ New Journey</span>
+            </button>
+            <button type="button" id="btn-delete-scenario" class="btn-ghost btn-sm btn-danger-icon" title="Delete Scenario">
+              <span>🗑️</span>
+            </button>
+          </div>
+
+          <div class="scenario-auth-wrapper">
+            <label for="scenario-auth-select" class="scenario-label">Auth Session:</label>
+            <select id="scenario-auth-select" class="scenario-select">
+              <option value="">None (Run Public)</option>
+            </select>
+          </div>
+
+          <div class="scenario-run-actions">
+            <button type="button" id="btn-run-scenario" class="btn-primary">
+              <span class="btn-text">▶ Run Journey</span>
+              <span class="btn-loader" hidden>
+                <span class="spinner"></span>
+                <span>Executing...</span>
+              </span>
+            </button>
+            <button type="button" id="btn-export-scenario-junit" class="btn-ghost btn-sm" title="Export JUnit XML for this run" disabled>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              <span>Export JUnit</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="scenario-meta-row">
+          <div class="input-with-label">
+            <label for="scenario-base-url-input">Target Base URL Override:</label>
+            <input type="url" id="scenario-base-url-input" placeholder="https://example.com (optional override)" />
+          </div>
+          <div class="scenario-badges">
+            <span class="scenario-badge" id="scen-badge-steps">0 Steps</span>
+            <span class="scenario-badge" id="scen-badge-auth">Unauthenticated</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Scenario Definition / Editor Drawer -->
+      <details class="glass-card scenario-editor-card" id="scenario-editor-details">
+        <summary class="scenario-editor-summary">
+          <span>⚙️ Scenario Definition &amp; Step Configuration (JSON)</span>
+          <span class="editor-hint">Click to expand / edit steps</span>
+        </summary>
+        <div class="scenario-editor-body">
+          <div class="editor-toolbar">
+            <button type="button" id="btn-save-scenario" class="btn-secondary btn-sm">
+              <span>💾 Save Changes</span>
+            </button>
+            <button type="button" id="btn-format-json" class="btn-ghost btn-sm">
+              <span>Format JSON</span>
+            </button>
+            <span id="scenario-save-status" class="auth-status-text"></span>
+          </div>
+          <textarea id="scenario-json-editor" class="code-editor" rows="14" spellcheck="false"></textarea>
+          <div class="scenario-cheatsheet">
+            <small><strong>Supported Actions:</strong> <code>navigate</code>, <code>click</code>, <code>fill</code>, <code>type</code>, <code>select</code>, <code>check</code>, <code>uncheck</code>, <code>pressKey</code>, <code>hover</code>, <code>wait</code>, <code>screenshot</code>, <code>reload</code></small><br/>
+            <small><strong>Supported Assertions:</strong> <code>assertVisible</code>, <code>assertNotVisible</code>, <code>assertText</code>, <code>assertUrl</code>, <code>assertTitle</code></small><br/>
+            <small><strong>Dynamic Variables:</strong> <code>{{TIMESTAMP}}</code>, <code>{{DATE}}</code>, <code>{{RANDOM_EMAIL}}</code>, <code>{{RANDOM_STRING}}</code>, <code>{{UUID}}</code></small>
+          </div>
+        </div>
+      </details>
+
+      <!-- Live Execution Timeline & Results -->
+      <section id="scenario-results-panel" class="glass-card scenario-results-card" hidden>
+        <div class="scenario-status-bar">
+          <div class="scenario-status-info">
+            <h3 id="scen-status-title">Executing Journey...</h3>
+            <p id="scen-status-subtitle">Streaming steps in real time</p>
+          </div>
+          <div class="scenario-metrics">
+            <div class="metric-pill" id="scen-metric-status">RUNNING</div>
+            <div class="metric-pill" id="scen-metric-duration">0s</div>
+            <div class="metric-pill" id="scen-metric-passed">0/0 Passed</div>
+          </div>
+        </div>
+
+        <div class="progress-bar" style="margin-bottom: 20px;">
+          <div class="progress-fill" id="scen-progress-fill" style="width: 0%"></div>
+        </div>
+
+        <!-- Steps Timeline Container -->
+        <div id="scenario-steps-container" class="scenario-steps-container"></div>
+      </section>
+    </div>
+
+    <!-- Image Lightbox Modal -->
+    <div id="lightbox-modal" class="modal" hidden>
+      <div class="modal-backdrop" id="lightbox-backdrop"></div>
+      <div class="lightbox-content glass-card">
+        <button class="btn-close lightbox-close" id="btn-close-lightbox">&times;</button>
+        <img id="lightbox-img" src="" alt="Screenshot Full View" />
+        <p id="lightbox-caption" class="lightbox-caption"></p>
+      </div>
+    </div>
+
+    <!-- History Modal -->
+    <div id="history-modal" class="modal" hidden>
+      <div class="modal-backdrop"></div>
+      <div class="modal-content glass-card">
+        <div class="modal-header">
+          <h2>Test History</h2>
+          <button class="btn-close" id="btn-close-history">&times;</button>
+        </div>
+        <div class="modal-body" id="history-list">
+          <p class="empty-state">No test history yet.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="app-footer">
+    <p>🔒 AutoTest Pro • 100% Local • Zero Data Leakage • Open Source</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

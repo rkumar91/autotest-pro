@@ -1,0 +1,55 @@
+{
+  "id": "scenario_sample_search_nav",
+  "name": "Wikipedia Corporate Search & Topic Navigation",
+  "description": "Verifies end-to-end user journey: navigation, input search with dynamic timestamp, submitting query, and asserting article content.",
+  "baseUrl": "https://en.wikipedia.org",
+  "viewport": { "width": 1440, "height": 900 },
+  "variables": {
+    "topic": "Software testing"
+  },
+  "steps": [
+    {
+      "name": "Navigate to Home Page",
+      "action": "navigate",
+      "url": "https://en.wikipedia.org/wiki/Main_Page",
+      "screenshot": true
+    },
+    {
+      "name": "Verify Page Title",
+      "assert": "assertTitle",
+      "match": "Wikipedia"
+    },
+    {
+      "name": "Fill Search Input with Topic",
+      "action": "fill",
+      "selector": "input.cdx-text-input__input",
+      "value": "{{topic}}"
+    },
+    {
+      "name": "Press Enter to Submit Search",
+      "action": "pressKey",
+      "selector": "input.cdx-text-input__input",
+      "key": "Enter"
+    },
+    {
+      "name": "Wait for Search / Article Result to Load",
+      "action": "wait",
+      "selector": "h1#firstHeading"
+    },
+    {
+      "name": "Click First Search Result Article",
+      "action": "click",
+      "selector": ".mw-search-result-heading a"
+    },
+    {
+      "name": "Assert Article Heading Contains Topic",
+      "assert": "assertText",
+      "selector": "h1#firstHeading",
+      "text": "Software testing"
+    },
+    {
+      "name": "Capture Final Step Screenshot",
+      "action": "screenshot"
+    }
+  ]
+}

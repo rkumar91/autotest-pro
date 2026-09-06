@@ -1,0 +1,28 @@
+{
+  "name": "autotest-pro",
+  "version": "1.0.0",
+  "description": "Automated E2E UI Testing Tool with Real-Time Dashboard — 100% local, open source, zero data leakage",
+  "main": "server.js",
+  "bin": {
+    "autotest-pro": "./bin/cli.js"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "cli": "node bin/cli.js",
+    "install-browsers": "npx playwright install chromium"
+  },
+  "keywords": [
+    "testing",
+    "e2e",
+    "playwright",
+    "automation",
+    "dashboard"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@axe-core/playwright": "^4.13.0",
+    "express": "^4.21.0",
+    "playwright": "^1.48.0"
+  }
+}
