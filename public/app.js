@@ -1012,31 +1012,17 @@ window.deleteSession = async function(id) {
   }
 };
 
-// ── Auto-load latest test results on load ──
+// ── Clean initial state on load ──
 window.addEventListener('DOMContentLoaded', async () => {
   historyModal.hidden = true;
-  urlInput.focus();
-
-  // Show Credentials tab by default
-  if (authDrawer) authDrawer.hidden = false;
-  if (authSection) authSection.classList.add('open');
-  switchAuthTab('form');
-  updateLoginLinks();
+  if (resultsSection) resultsSection.hidden = true;
+  if (urlInput) {
+    urlInput.value = '';
+    urlInput.focus();
+  }
 
   // Load saved auth sessions
   loadSavedSessions();
-
-  try {
-    const res = await fetch('/api/test/latest');
-    if (res.ok) {
-      const latest = await res.json();
-      if (latest && latest.id) {
-        await loadSession(latest.id);
-      }
-    }
-  } catch (err) {
-    // Normal on first run before any test
-  }
 });
 
 // ═══════════════════════════════════════════════════════════════════
