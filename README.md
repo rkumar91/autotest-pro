@@ -36,7 +36,7 @@ Looking for the complete production-ready setup with pre-built CI/CD pipelines, 
 
 ### 1. Clone & Install
 ```bash
-git clone https://github.com/priyex-tech/autotest-pro.git
+git clone https://github.com/rkumar91/autotest-pro.git
 cd autotest-pro
 npm install
 ```

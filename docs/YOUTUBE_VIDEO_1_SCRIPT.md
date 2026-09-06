@@ -18,7 +18,7 @@
 Stop paying $100+/month for cloud test runners that leak internal staging data. In this video, we build AutoTest Pro — a 100% local, zero-leakage automated E2E testing suite with a real-time web dashboard, automated WCAG accessibility audits, and a CI/CD headless gatekeeper.
 
 ⭐ Get the Full Source Code on GitHub:
-👉 https://github.com/priyex-tech/autotest-pro
+👉 https://github.com/rkumar91/autotest-pro
 
 💎 Get the Production-Ready Enterprise Kit:
 👉 https://priyex.lemonsqueezy.com/checkout/buy/d89c870f-f836-4e9e-b254-8bfa72afd575
