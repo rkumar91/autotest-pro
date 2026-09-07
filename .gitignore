@@ -5,7 +5,9 @@ package-lock.json
 # Test Artifacts & Outputs
 reports/
 screenshots/
+recordings/
 *.log
+*.zip
 
 # Sensitive Session & History Data
 auth/*.json

@@ -8,6 +8,7 @@
 [![Axe-Core](https://img.shields.io/badge/Accessibility-WCAG%202.1%20AA-blue.svg)](https://github.com/dequelabs/axe-core)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Privacy: 100% Local](https://img.shields.io/badge/Privacy-100%25%20Local-purple.svg)](#privacy-guarantee)
+[![Watch on YouTube](https://img.shields.io/badge/YouTube-Watch%20Tutorial-red.svg?logo=youtube&logoColor=white)](https://youtu.be/vQGmiV_DKwY)
 
 ---
 
@@ -163,9 +164,9 @@ jobs:
 
 ## 🤝 Community & Support
 
-Maintained with ❤️ by **[Priyex Tech](https://youtube.com/@priyextech)**.
+Maintained with ❤️ by **[Priyex Tech](https://youtube.com/@TechPriyex)**.
 
-* 📺 **YouTube Tutorials**: [Watch Step-by-Step Guides & Architectural Deep Dives](https://youtube.com/@priyextech)
+* 📺 **YouTube Tutorials**: [Watch the AutoTest Pro Deep Dive](https://youtu.be/vQGmiV_DKwY) on our channel **[@TechPriyex](https://youtube.com/@TechPriyex)**
 * 💡 **Feature Requests & Issues**: Open an issue on GitHub.
 
 ---

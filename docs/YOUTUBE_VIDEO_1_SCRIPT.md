@@ -1,6 +1,6 @@
 # 🎬 YouTube Video #1: Production Script & Visual Guide
 
-**Channel**: Priyex Tech  
+**Channel**: Priyex Tech ([@TechPriyex](https://www.youtube.com/@TechPriyex))  
 **Video Title**: I Built a Local E2E Test Dashboard with Playwright & Node.js (Zero Cloud Bills)  
 **Estimated Duration**: ~8 to 10 Minutes  
 **Target Audience**: Developers, QA Engineers, DevOps, Tech Leads  
@@ -38,7 +38,7 @@ Stop paying $100+/month for cloud test runners that leak internal staging data. 
 ```
 
 ### 🏷️ YouTube Tags:
-`playwright tutorial`, `automated testing`, `e2e testing nodejs`, `playwright test dashboard`, `axe-core accessibility testing`, `local test runner`, `software quality gate`, `github actions e2e`, `priyex tech`, `javascript testing`
+`playwright tutorial`, `automated testing`, `e2e testing nodejs`, `playwright test dashboard`, `axe-core accessibility testing`, `local test runner`, `software quality gate`, `github actions e2e`, `priyex tech`, `tech priyex`, `techpriyex`, `javascript testing`
 
 ---
 
